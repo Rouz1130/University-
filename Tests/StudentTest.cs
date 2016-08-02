@@ -5,8 +5,20 @@ using System;
 
 namespace University.Objects
 {
-  public class StudentTest
+  public class StudentTest : IDisposable
   {
+    public void Dispose()
+    {
+      Student.DeleteAll();
+    }
+
+    public StudentTest()
+   {
+     DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=University_;Integrated Security=SSPI;";
+   }
+
+
+
     [Fact]
     public void Test1_StudentGetName()
     {
@@ -44,12 +56,13 @@ namespace University.Objects
     [Fact]
     public void Test4_SaveStudent()
     {
-
+      //Arrange
     Student newStudent = new Student("Russ", "2016-1-1");
     newStudent.Save();
-
+//ACt
     List<Student> allStudents = Student.GetAll();
-
+    Console.WriteLine(allStudents.Count);
+//assert
     Assert.Equal(newStudent, allStudents[0]);
 
 
