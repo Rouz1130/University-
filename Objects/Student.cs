@@ -16,6 +16,38 @@ namespace University.Objects
       _doe = doe;
       _id = id;
     }
-    
+
+    public string GetName()
+    {
+      return _name;
+    }
+
+    public string GetDoe()
+    {
+      return _doe;
+    }
+
+    public int GetId()
+    {
+      return _id;
+    }
+
+    public void SetName(string newName)
+    {
+      _name = newName;
+    }
+
+    public void Save()
+    {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+    }
+
+    public static List<Student> GetAll()
+    {
+
+      return new List<Student>();
+    }
+
   }
 }
