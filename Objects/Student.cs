@@ -52,38 +52,38 @@ namespace University.Objects
 
     public override int GetHashCode()
     {
-         return this.GetName().GetHashCode();
+      return this.GetName().GetHashCode();
     }
 
     public void Save()
     {
-        SqlConnection conn = DB.Connection();
-        conn.Open();
+      SqlConnection conn = DB.Connection();
+      conn.Open();
 
-        SqlCommand cmd = new SqlCommand("INSERT INTO students(name,doe)OUTPUT INSERTED.id VALUES (@studentName,@studentDoe);", conn );
-        SqlParameter nameParameter = new SqlParameter();
-        nameParameter.ParameterName = "@studentName";
-        nameParameter.Value = this.GetName();
-        cmd.Parameters.Add(nameParameter);
+      SqlCommand cmd = new SqlCommand("INSERT INTO students(name,doe)OUTPUT INSERTED.id VALUES (@studentName,@studentDoe);", conn );
+      SqlParameter nameParameter = new SqlParameter();
+      nameParameter.ParameterName = "@studentName";
+      nameParameter.Value = this.GetName();
+      cmd.Parameters.Add(nameParameter);
 
-        SqlParameter doeParameter = new SqlParameter();
-        doeParameter.ParameterName = "@studentDoe";
-        doeParameter.Value = this.GetDoe();
-        cmd.Parameters.Add(doeParameter);
-        SqlDataReader rdr = cmd.ExecuteReader();
+      SqlParameter doeParameter = new SqlParameter();
+      doeParameter.ParameterName = "@studentDoe";
+      doeParameter.Value = this.GetDoe();
+      cmd.Parameters.Add(doeParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
 
-        while(rdr.Read())
-        {
-          this._id = rdr.GetInt32(0);
-        }
-        if (rdr !=null)
-        {
-          rdr.Close();
-        }
-        if (conn !=null)
-        {
-          conn.Close();
-        }
+      while(rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if (rdr !=null)
+      {
+        rdr.Close();
+      }
+      if (conn !=null)
+      {
+        conn.Close();
+      }
     }
 
     public static List<Student> GetAll()
@@ -97,11 +97,11 @@ namespace University.Objects
 
       while(rdr.Read())
       {
-      int studentId = rdr.GetInt32(0);
-      string studentName = rdr.GetString(1);
-      string studentDoe = rdr.GetString(2);
-      Student newStudent = new Student(studentName, studentDoe, studentId);
-      allStudents.Add(newStudent);
+        int studentId = rdr.GetInt32(0);
+        string studentName = rdr.GetString(1);
+        string studentDoe = rdr.GetString(2);
+        Student newStudent = new Student(studentName, studentDoe, studentId);
+        allStudents.Add(newStudent);
       }
       if (rdr != null)
       {
@@ -112,16 +112,105 @@ namespace University.Objects
         conn.Close();
       }
       return allStudents;
-     }
+    }
 
-     public static void DeleteAll()
-     {
-       SqlConnection conn = DB.Connection();
-       conn.Open();
-       SqlCommand cmd = new SqlCommand ("DELETE FROM students;", conn);
-       cmd.ExecuteNonQuery();
-       conn.Close();
-     }
+    public static Student Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM students WHERE id = @studentId;", conn);
+      SqlParameter studentIdParameter = new SqlParameter();
+      studentIdParameter.ParameterName =  "@studentId";
+      studentIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(studentIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int findStudentId = 0;
+      string findStudentName = null;
+      string findStudentDoe = null;
+      while(rdr.Read())
+      {
+        findStudentId = rdr.GetInt32(0);
+        findStudentName = rdr.GetString(1);
+        findStudentDoe = rdr.GetString(2);
+      }
+      Student findStudent = new Student(findStudentName,findStudentDoe,findStudentId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return findStudent;
+
+    }
+
+    public void Update(string Name)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("UPDATE students SET name =@studentName output inserted.name WHERE id =@studentId;", conn);
+      SqlParameter StudentNameParameter = new SqlParameter();
+      StudentNameParameter.ParameterName = "@studentName";
+      StudentNameParameter.Value = Name;
+
+      SqlParameter StudentIdParameter = new SqlParameter();
+      StudentIdParameter.ParameterName = "@StudentId";
+      StudentIdParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(StudentNameParameter);
+      cmd.Parameters.Add(StudentIdParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._name = rdr.GetString(0);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (rdr != null)
+      {
+        conn.Close();
+      }
+    }
+
+      public void Delete()
+      {
+        SqlConnection conn = DB.Connection();
+        conn.Open();
+        SqlCommand cmd = new SqlCommand ("DELETE FROM students WHERE id =@studentId;", conn);
+
+        SqlParameter studentIdParameter = new SqlParameter();
+        studentIdParameter.ParameterName = "@studentId";
+        studentIdParameter.Value=this.GetId();
+        Console.WriteLine(this.GetId());
+        cmd.Parameters.Add(studentIdParameter);
+        cmd.ExecuteNonQuery();
+        if (conn !=null)
+        {
+          conn.Close();
+        }
+      }
+
+
+    public static void DeleteAll()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand ("DELETE FROM students;", conn);
+      cmd.ExecuteNonQuery();
+      conn.Close();
+    }
 
 
   }

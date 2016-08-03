@@ -64,9 +64,47 @@ namespace University.Objects
     Console.WriteLine(allStudents.Count);
 //assert
     Assert.Equal(newStudent, allStudents[0]);
+    }
 
+    [Fact]
+    public void Test5_FindId()
+    {
+      Student newStudent = new Student ("Rick","2016-1-1");
+      newStudent.Save();
+
+      Student findStudent = Student.Find(newStudent.GetId());
+
+      Assert.Equal(findStudent, newStudent);
+    }
+
+    [Fact]
+    public void Test6_UpdateStudent_Database()
+    {
+      Student newStudent = new Student("Rouz","2016-1-1");
+      newStudent.Save();
+      newStudent.Update("mike");
+      string result = newStudent.GetName();
+
+      Assert.Equal("mike", result);
+    }
+
+    [Fact]
+    public void Test7_DeleteOneStudent()
+    {
+      Student firstStudent = new Student("Russ","2016-1-1");
+      firstStudent.Save();
+
+      Student secondStudent = new Student("Bob", "2016-1-1");
+      secondStudent.Save();
+
+      firstStudent.Delete();
+      List<Student> allStudents = Student.GetAll();
+      List<Student> afterDeleteFristStudent = new List<Student> {secondStudent};
+
+      Assert.Equal(afterDeleteFristStudent, allStudents);
+
+    }
 
     }
 
   }
-}
