@@ -56,5 +56,37 @@ namespace University.Objects
             return this.GetCourseName().GetHashCode();
           }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          // public static void DeleteAll()
+          // {
+          //   SqlConnection conn = DB.Connection();
+          //   conn.Open();
+          //   SqlCommand cmd = new SqlCommand ("DELETE FROM course;", conn);
+          //   cmd.ExecuteNonQuery();
+          //   conn.Close();
+          // }
+
+
+
+
+
+
+
         }
       }

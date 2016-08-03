@@ -5,7 +5,7 @@ using System;
 
 namespace University.Objects
 {
-  public class CourseTest 
+  public class CourseTest
   {
     // public void Dispose()
     // {
@@ -27,5 +27,20 @@ namespace University.Objects
 
      Assert.Equal("English", result);
    }
-}
+
+   [Fact]
+   public void Test2_GetCourseNumber()
+   {
+     // arrange
+    Course newCourse = new Course("English", "101");
+     // act
+     string result = newCourse.GetCourseNumber();
+
+     Assert.Equal("101", result);
+
+   }
+
+
+
+ }
 }
