@@ -1,0 +1,71 @@
+using System.Collections.Generic;
+using Nancy;
+using Nancy.ViewEngines.Razor;
+
+namespace University.Objects
+{
+  public class HomeModule : NancyModule
+  {
+    public HomeModule()
+    {
+    Get["/"] = _ => {
+      return View["index.cshtml"];
+    };
+
+    Get["/students"] = _ => {
+      List<Student> allStudents = Student.GetAll();
+      return View["students.cshtml", allStudents];
+    };
+
+    Get["/students/new"] = _ => {
+
+      return View["add_student.cshtml"];
+
+    };
+
+    Post["/students/new"] = _ => {
+      Student newStudent = new Student(Request.Form["student-name"],Request.Form["student-doe"]);
+      newStudent.Save();
+      List<Student> allStudents= Student.GetAll();
+      return View["students.cshtml", allStudents];
+    };
+
+    Get["/students/delete/{id}"] = parameters => {
+      Student SelectedStudent = Student.Find(parameters.id);
+      return View["confirm_student_delete.cshtml", SelectedStudent];
+    };
+
+    Get["students/edit/{id}"] = parameters => {
+      Student SelectedStudent = Student.Find(parameters.id);
+      return View["student_edit.cshtml", SelectedStudent];
+    };
+
+    Patch["students/edit/{id}"] = parameters => {
+      Student SelectedStudent = Student.Find(parameters.id);
+      SelectedStudent.Update(Request.Form["student-name"]);
+      return View["index.cshtml"];
+    };
+
+
+
+    Delete["/students/delete/{id}"] = parameters => {
+      Student SelectedStudent = Student.Find(parameters.id);
+      SelectedStudent.Delete();
+      return View["index.cshtml"];
+    };
+
+
+    Post["/students/delete"] = _ => {
+      Student.DeleteAll();
+      return View["index.cshtml"];
+    };
+
+
+
+  }
+
+
+
+}
+
+}

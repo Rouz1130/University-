@@ -1,0 +1,11 @@
+<h1>edit student</h1>
+
+<h2>Edit student: @Model.GetName()</h2>
+<form action="/students/edit/@Model.GetId()" method="post">
+  <input type="hidden" name="_method" value="PATCH">
+  <input name="student-id" type="hidden" value="@Model.GetId()">
+  <label for="student-name">Student Name:</label>
+  <input id="student-name" name="student-name" type="text">
+  <button type="submit">Submit</button>
+</form>
+<h4><a href="/">Return home</a></h4>
