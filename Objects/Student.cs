@@ -212,6 +212,16 @@ namespace University.Objects
       conn.Close();
     }
 
+    public void AddCourse(Course newCourse)
+    {
+
+    }
+
+    public List<Course> GetAllCourses()
+    {
+      return new List<Course>();
+    }
+
 
   }
 }

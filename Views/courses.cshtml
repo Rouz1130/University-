@@ -7,12 +7,12 @@
 <ul>
   @foreach (var course in Model)
   {
-    <li><a href="/courses/@course.GetId()">@course.GetId()</a></li>
-    <li>@course.GetCourseName()</li>
+    <li>@course.GetCourseName().ToUpper()</li>
     <li>@course.GetCourseNumber()</li>
-    <li>@course.GetId()</li>
-    <li><a href="/courses/edit/@course.GetId()">Edit</a></li>
-    <li><a href="/courses/delete/@course.GetId()">Delete</a></li>
+    <ul>
+      <li><a href="/courses/edit/@course.GetId()">Edit</a></li>
+      <li><a href="/courses/delete/@course.GetId()">Delete</a></li>
+    </ul>
   }
 </ul>
 <a href="/courses/new">Add new</a>

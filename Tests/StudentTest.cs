@@ -102,7 +102,22 @@ namespace University.Objects
       List<Student> afterDeleteFristStudent = new List<Student> {secondStudent};
 
       Assert.Equal(afterDeleteFristStudent, allStudents);
+    }
 
+    [Fact]
+    public void Test8_AddCourseToStudent()
+    {
+      //Arrange
+      Student firstStudent = new Student("Russ","2016-1-1");
+      firstStudent.Save();
+
+      Course testCourse = new Course("Algebra","MATH101");
+      testCourse.Save();
+      //act
+      firstStudent.AddCourse(testCourse);
+      List<Course> studentsCourses = firstStudent.GetAllCourses();
+      //Assert
+      Assert.Equal(testCourse, studentsCourses[0]);
     }
 
     }
