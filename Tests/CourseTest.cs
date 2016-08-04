@@ -5,7 +5,7 @@ using System;
 
 namespace University.Objects
 {
-  public class CourseTest 
+  public class CourseTest
   {
     // public void Dispose()
     // {
@@ -64,6 +64,19 @@ namespace University.Objects
 //assert
    Assert.Equal(newCourse, allCourses[0]);
    }
+
+
+
+       [Fact]
+       public void Test5_FindId()
+       {
+         Course newCourse = new Course ("English","101");
+         newCourse.Save();
+
+         Course findCourse = Course.Find(newCourse.GetId());
+
+         Assert.Equal(findCourse, newCourse);
+       }
 
 
 

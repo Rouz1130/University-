@@ -120,6 +120,42 @@ public class Course
 
 
 
+        public static Course Find(int id)
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+
+          SqlCommand cmd = new SqlCommand("SELECT * FROM courses WHERE id = @courseId;", conn);
+          SqlParameter courseIdParameter = new SqlParameter();
+          courseIdParameter.ParameterName =  "@courseId";
+          courseIdParameter.Value = id.ToString();
+          cmd.Parameters.Add(courseIdParameter);
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          int findCourseId = 0;
+          string findCourseName = null;
+          string findCourseNumber = null;
+          while(rdr.Read())
+          {
+            findCourseId = rdr.GetInt32(2);
+            findCourseName = rdr.GetString(0);
+            findCourseNumber = rdr.GetString(1);
+          }
+          Course findCourse = new Course(findCourseName,findCourseNumber,findCourseId);
+
+          if (rdr != null)
+          {
+            rdr.Close();
+          }
+          if (conn != null)
+          {
+            conn.Close();
+          }
+          return findCourse;
+
+        }
+
+
 
 
 
