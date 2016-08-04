@@ -193,7 +193,7 @@ namespace University.Objects
         SqlParameter studentIdParameter = new SqlParameter();
         studentIdParameter.ParameterName = "@studentId";
         studentIdParameter.Value=this.GetId();
-        Console.WriteLine(this.GetId());
+        // Console.WriteLine(this.GetId());
         cmd.Parameters.Add(studentIdParameter);
         cmd.ExecuteNonQuery();
         if (conn !=null)

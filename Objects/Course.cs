@@ -200,7 +200,7 @@ public class Course
           SqlParameter courseIdParameter = new SqlParameter();
          courseIdParameter.ParameterName = "@courseId";
          courseIdParameter.Value=this.GetId();
-          Console.WriteLine(this.GetId());
+          // Console.WriteLine(this.GetId());
           cmd.Parameters.Add(courseIdParameter);
           cmd.ExecuteNonQuery();
           if (conn !=null)
