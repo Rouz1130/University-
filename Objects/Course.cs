@@ -69,9 +69,9 @@ public class Course
 
           while(rdr.Read())
           {
-            int courseId = rdr.GetInt32(0);
-            string courseName = rdr.GetString(1);
-            string courseNumber = rdr.GetString(2);
+            int courseId = rdr.GetInt32(2);
+            string courseName = rdr.GetString(0);
+            string courseNumber = rdr.GetString(1);
             Course newCourse = new Course(courseName, courseNumber, courseId);
             allCourses.Add(newCourse);
           }
@@ -92,7 +92,7 @@ public class Course
           SqlConnection conn = DB.Connection();
           conn.Open();
 
-          SqlCommand cmd = new SqlCommand("INSERT INTO courses(courseName,courseNumber)OUTPUT INSERTED.id VALUES (@courseName,@courseNumber);", conn );
+          SqlCommand cmd = new SqlCommand("INSERT INTO courses(name,course_number)OUTPUT INSERTED.id VALUES (@courseName,@courseNumber);", conn );
           SqlParameter nameParameter = new SqlParameter();
           nameParameter.ParameterName = "@courseName";
           nameParameter.Value = this.GetCourseName();
