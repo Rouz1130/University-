@@ -67,16 +67,30 @@ namespace University.Objects
 
 
 
-       [Fact]
-       public void Test5_FindId()
-       {
-         Course newCourse = new Course ("English","101");
-         newCourse.Save();
+     [Fact]
+     public void Test5_FindId()
+     {
+       Course newCourse = new Course ("English","101");
+       newCourse.Save();
 
-         Course findCourse = Course.Find(newCourse.GetId());
+       Course findCourse = Course.Find(newCourse.GetId());
 
-         Assert.Equal(findCourse, newCourse);
-       }
+       Assert.Equal(findCourse, newCourse);
+     }
+
+
+     [Fact]
+     public void Test6_UpdateStudent_Database()
+     {
+       Course newCourse = new Course("English","101");
+       newCourse.Save();
+       newCourse.Update("Math");
+       string result = newCourse.GetCourseName();
+
+       Assert.Equal("Math", result);
+     }
+
+
 
 
 

@@ -156,6 +156,42 @@ public class Course
         }
 
 
+        public void Update(string Name)
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+
+          SqlCommand cmd = new SqlCommand("UPDATE courses SET name =@courseName output inserted.name WHERE id =@courseId;", conn);
+          SqlParameter CourseNameParameter = new SqlParameter();
+          CourseNameParameter.ParameterName = "@courseName";
+          CourseNameParameter.Value = Name;
+
+          SqlParameter CourseIdParameter = new SqlParameter();
+          CourseIdParameter.ParameterName = "@courseId";
+          CourseIdParameter.Value = this.GetId();
+
+          cmd.Parameters.Add(CourseNameParameter);
+          cmd.Parameters.Add(CourseIdParameter);
+
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          while(rdr.Read())
+          {
+            this._courseName = rdr.GetString(0);
+          }
+
+          if (rdr != null)
+          {
+            rdr.Close();
+          }
+
+          if (rdr != null)
+          {
+            conn.Close();
+          }
+        }
+
+
 
 
 
