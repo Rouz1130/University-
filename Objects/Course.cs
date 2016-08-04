@@ -4,58 +4,87 @@ using System;
 
 namespace University.Objects
 {
-  public class Course
+public class Course
+{
+  private string _courseName;
+  private string _courseNumber;
+  private int _id;
+
+  public Course(string courseName, string courseNumber, int id=0)
   {
-    private string _courseName;
-    private string _courseNumber;
-    private int _id;
+    _courseName = courseName;
+    _courseNumber = courseNumber;
+    _id = id;
+  }
 
-    public Course(string courseName, string courseNumber, int id=0)
+  public string GetCourseName()
+  {
+    return _courseName;
+  }
+
+  public string GetCourseNumber()
+  {
+    return _courseNumber;
+  }
+
+  public int GetId()
+  {
+    return _id;
+  }
+
+  public void SetName(string newCourseName)
+  {
+    _courseName = newCourseName;
+  }
+
+
+  public override bool Equals(System.Object otherCourse)
+  {
+    if (!(otherCourse is Course))
     {
-      _courseName = courseName;
-      _courseNumber = courseNumber;
-      _id = id;
+      return false;
     }
-
-    public string GetCourseName()
+    else
     {
-      return _courseName;
+      Course newCourse = (Course) otherCourse;
+      return this.GetCourseName().Equals(newCourse.GetCourseName());
     }
+  }
 
-    public string GetCourseNumber()
-    {
-      return _courseNumber;
-    }
-
-    public int GetId()
-    {
-      return _id;
-    }
-
-    public void SetName(string newCourseName)
-    {
-      _courseName = newCourseName;
-    }
+        public override int GetHashCode()
+        {
+          return this.GetCourseName().GetHashCode();
+        }
 
 
-          public override bool Equals(System.Object otherCourse)
+
+        public static List<Course> GetAll()
+        {
+          List<Course> allCourses = new List<Course>{};
+
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+          SqlCommand cmd = new SqlCommand("SELECT * FROM courses;", conn);
+          SqlDataReader rdr  = cmd.ExecuteReader();
+
+          while(rdr.Read())
           {
-            if (!(otherCourse is Course))
-            {
-              return false;
-            }
-            else
-            {
-              Course newCourse = (Course) otherCourse;
-              return this.GetCourseName().Equals(newCourse.GetCourseName());
-            }
+            int courseId = rdr.GetInt32(0);
+            string courseName = rdr.GetString(1);
+            string courseNumber = rdr.GetString(2);
+            Course newCourse = new Course(courseName, courseNumber, courseId);
+            allCourses.Add(newCourse);
           }
-
-          public override int GetHashCode()
+          if (rdr != null)
           {
-            return this.GetCourseName().GetHashCode();
+            rdr.Close();
           }
-
+          if (conn != null)
+          {
+            conn.Close();
+          }
+          return allCourses;
+        }
 
 
 

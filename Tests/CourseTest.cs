@@ -40,6 +40,18 @@ namespace University.Objects
 
    }
 
+   [Fact]
+   public void Test3_SetCourseName()
+   {
+     // arrange
+     Course newCourse = new Course("English", "101");
+     newCourse.SetName("English");
+     // act
+     string result = newCourse.GetCourseName();
+
+     Assert.Equal("English", result);
+   }
+
 
 
  }
