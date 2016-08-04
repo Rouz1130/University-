@@ -1,0 +1,10 @@
+<div>
+    <h2>Confirm Delete</h2>
+    <h4>Are you sure you want to delete @Model.GetCourseName()?</h4>
+    <form action="/courses/delete/@Model.GetId()" method="post">
+      <input type="hidden" name="_method" value="DELETE">
+      <input name="course-id" type="hidden" value="@Model.GetId()">
+      <button type="submit">YES I WANT TO DELETE @Model.GetCourseName()</button>
+    </form>
+    <a href="/">Go Home</a>
+</div>

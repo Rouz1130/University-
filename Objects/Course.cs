@@ -191,34 +191,32 @@ public class Course
           }
         }
 
+        public void Delete()
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+          SqlCommand cmd = new SqlCommand ("DELETE FROM courses WHERE id =@courseId;", conn);
 
+          SqlParameter courseIdParameter = new SqlParameter();
+         courseIdParameter.ParameterName = "@courseId";
+         courseIdParameter.Value=this.GetId();
+          Console.WriteLine(this.GetId());
+          cmd.Parameters.Add(courseIdParameter);
+          cmd.ExecuteNonQuery();
+          if (conn !=null)
+          {
+            conn.Close();
+          }
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-          // public static void DeleteAll()
-          // {
-          //   SqlConnection conn = DB.Connection();
-          //   conn.Open();
-          //   SqlCommand cmd = new SqlCommand ("DELETE FROM course;", conn);
-          //   cmd.ExecuteNonQuery();
-          //   conn.Close();
-          // }
-
-
-
-
-
+        public static void DeleteAll()
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+          SqlCommand cmd = new SqlCommand ("DELETE FROM courses;", conn);
+          cmd.ExecuteNonQuery();
+          conn.Close();
+        }
 
 
         }

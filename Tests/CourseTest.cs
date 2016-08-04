@@ -5,12 +5,12 @@ using System;
 
 namespace University.Objects
 {
-  public class CourseTest
+  public class CourseTest : IDisposable
   {
-    // public void Dispose()
-    // {
-    //   Course.DeleteAll();
-    // }
+    public void Dispose()
+    {
+      Course.DeleteAll();
+    }
 
     public CourseTest()
    {
@@ -80,7 +80,7 @@ namespace University.Objects
 
 
      [Fact]
-     public void Test6_UpdateStudent_Database()
+     public void Test6_UpdateCourse_Database()
      {
        Course newCourse = new Course("English","101");
        newCourse.Save();
@@ -91,7 +91,21 @@ namespace University.Objects
      }
 
 
+     [Fact]
+     public void Test7_DeleteOneCourse()
+     {
+       Course firstCourse = new Course("English","101");
+       firstCourse.Save();
 
+       Course secondCourse = new Course("English", "101");
+       secondCourse.Save();
+
+       firstCourse.Delete();
+       List<Course> allCourses = Course.GetAll();
+       List<Course> afterDeleteFristCourse = new List<Course> {secondCourse};
+
+       Assert.Equal(afterDeleteFristCourse, allCourses);
+     }
 
 
  }
