@@ -87,6 +87,38 @@ public class Course
         }
 
 
+        public void Save()
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+
+          SqlCommand cmd = new SqlCommand("INSERT INTO courses(courseName,courseNumber)OUTPUT INSERTED.id VALUES (@courseName,@courseNumber);", conn );
+          SqlParameter nameParameter = new SqlParameter();
+          nameParameter.ParameterName = "@courseName";
+          nameParameter.Value = this.GetCourseName();
+          cmd.Parameters.Add(nameParameter);
+
+          SqlParameter courseNumberParameter = new SqlParameter();
+          courseNumberParameter.ParameterName = "@courseNumber";
+          courseNumberParameter.Value = this.GetCourseNumber();
+          cmd.Parameters.Add(courseNumberParameter);
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          while(rdr.Read())
+          {
+            this._id = rdr.GetInt32(0);
+          }
+          if (rdr !=null)
+          {
+            rdr.Close();
+          }
+          if (conn !=null)
+          {
+            conn.Close();
+          }
+        }
+
+
 
 
 

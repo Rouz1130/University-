@@ -5,7 +5,7 @@ using System;
 
 namespace University.Objects
 {
-  public class CourseTest
+  public class CourseTest 
   {
     // public void Dispose()
     // {
@@ -50,6 +50,19 @@ namespace University.Objects
      string result = newCourse.GetCourseName();
 
      Assert.Equal("English", result);
+   }
+
+   [Fact]
+   public void Test4_SaveCourseName()
+   {
+     //Arrange
+   Course newCourse = new Course("English", "101");
+   newCourse.Save();
+//ACt
+   List<Course> allCourses = Course.GetAll();
+   Console.WriteLine(allCourses.Count);
+//assert
+   Assert.Equal(newCourse, allCourses[0]);
    }
 
 
