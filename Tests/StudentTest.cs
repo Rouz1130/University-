@@ -115,10 +115,32 @@ namespace University.Objects
       testCourse.Save();
       //act
       firstStudent.AddCourse(testCourse);
-      List<Course> studentsCourses = firstStudent.GetAllCourses();
+      List<Course> studentsCourses = firstStudent.GetCourses();
       //Assert
       Assert.Equal(testCourse, studentsCourses[0]);
     }
+
+    [Fact]
+   public void Test9_GetCourse_RetrievesAllCourseWithStudents()
+   {
+     Student testStudent = new Student("Russ","2016-1-1");
+     testStudent.Save();
+
+     Course firstCourse = new Course("English","101");
+     firstCourse.Save();
+     Course secondCourse = new Course("MATH","101");
+     secondCourse.Save();
+     testStudent.AddCourse(firstCourse);
+     testStudent.AddCourse(secondCourse);
+
+     List<Course> testCourseList = new List<Course> {firstCourse, secondCourse};
+     List<Course> resultCourseList = testStudent.GetCourses();
+
+     Assert.Equal(testCourseList, resultCourseList);
+   }
+
+
+
 
     }
 
